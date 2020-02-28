@@ -18,7 +18,42 @@ public:
     }
 };
 
-作者：yxc
-链接：https://www.acwing.com/solution/acwing/content/740/
-来源：AcWing
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+//翻转链表法
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findKthToTail(ListNode* pListHead, int k) {
+        if(k < 0 || !pListHead ) return nullptr;
+       
+        ListNode* cur = pListHead;
+        ListNode* pre = nullptr;
+        
+        while(cur) {
+            //1 .cache next 指针域， 2 cur->next = pre
+            auto next = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = next;
+        }
+        int i = 0; 
+        ListNode* reverseHead = pre;
+        ListNode* reverseCur = reverseHead;
+        while(reverseCur && i < k - 1) {
+        
+            reverseCur = reverseCur->next;
+            i ++;
+        }
+        if(!reverseCur) {
+            return nullptr;
+        }
+        return reverseCur;
+        
+    }
+};
